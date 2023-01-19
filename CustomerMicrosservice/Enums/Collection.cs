@@ -2,6 +2,6 @@
 {
     public enum Collection
     {
-        Users = 1
+        owners = 1
     }
 }
