@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["CustomerMicrosservice/CustomerMicrosservice.csproj", "CustomerMicrosservice/"]
-RUN dotnet restore "CustomerMicrosservice/CustomerMicrosservice.csproj"
+COPY ["OwnerMicrosservice/OwnerMicrosservice.csproj", "OwnerMicrosservice/"]
+RUN dotnet restore "OwnerMicrosservice/OwnerMicrosservice.csproj"
 COPY . .
-WORKDIR "/src/CustomerMicrosservice"
-RUN dotnet build "CustomerMicrosservice.csproj" -c Release -o /app/build
+WORKDIR "/src/OwnerMicrosservice"
+RUN dotnet build "OwnerMicrosservice.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "CustomerMicrosservice.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "OwnerMicrosservice.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "CustomerMicrosservice.dll"]
+ENTRYPOINT ["dotnet", "OwnerMicrosservice.dll"]
